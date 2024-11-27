@@ -1,0 +1,32 @@
+\documentclass{ctexart}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{字典树}
+\author{kiri}
+\begin{document}
+\maketitle
+\section{应用场景}
+用于快速存储查找字符串集合或者维护某些前缀的数据结构
+\section{基本思想}
+创建一棵树根节点值为0,对于这棵树有两种操作:
+\begin{enumerate}
+    \item 插入:插入一个字符串时,对于每一个字符分两种情况
+    \begin{enumerate}
+        \item 子节点中没有这个字符,那么此时就新建一个子节点并将该字符放在该节点处
+        \item 如果前缀相同那么就将从第一个不同的字母开始构成的树接在该前缀构成的树后
+        \item 对于一个字符串的结束处,就将其用数组标记方便后续操作
+    \end{enumerate}
+    \item 询问:询问一个字符串在集合中出现多少次
+\end{enumerate}
+\end{document}

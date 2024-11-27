@@ -1,0 +1,42 @@
+\documentclass{ctexart}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{字符串哈希}
+\author{kiri}
+
+\begin{document}
+\maketitle
+\section{用途}
+快速判断两个子串是否相同，也可以判断一个字符串是否是另一个字符串的子串
+\section{基本思想}
+\begin{enumerate}
+    \item 先考虑字符串前缀哈希，因为知道前缀哈希可以推出任意子段的哈希。可以预处理出字符串所有前缀的哈希,比如对于串$'ABCABCDEFGHIJKLMN'$,$h[0]=0$,$h[1]=hash('A')$ ($hash('A')$代表$'A'$的哈希值)
+    $h[2]=hash('AB')$,$h[3]=hash('ABC')\ldots$
+    \item 哈希值怎么求?比如:$'ABCD'$可以看做p进制下的一个数$ (ABCD)_{p} $转换成十进制就是$(A\times p^3+ B\times p^2 +C\times p+ D\times p^0)_{10}$又因为这个数可能有点大，所以我们要mod一个较小的数Q
+    即:$(A\times p^3+ B\times p^2 +C\times p+ D\times p^0)_{10} \mod Q$，一般我们取p=131或者13331;Q一般取$ 2^{64} $ 那么mod Q 操作我们可以用$unsigned long long $代替,因为$unsigned long long $ 爆了之后就相当于对$2^{64}$取模
+    \par 注意:
+    \begin{itemize}
+        \item 字符串不能被映射为0
+        \item 一般是不会存在冲突
+    \end{itemize}
+    \item 求出前缀哈希值后就可以求每个子串的哈希值了:
+    \begin{itemize}
+        \item 假设我们要求L到R段的哈希值( 包含L和R ) 我们已知了整个子串(1到n)的前缀哈希值那么我们可以把左侧(字符串开始的一端)视作低位，右侧(字符串结束的一端)视作高位
+        \item 那么$h[R]$就相当于一个R位的数$1$是第$R-1$位，$R$是第0位即$h[R]=p^{R-1}\ldots p^{0}$;同理，$h[L-1]=p^{l-2}\ldots p^{0}$
+        \item 那么我们算L到R的哈希值，先将$h[L-1]$最高位移到和$h[R]$最高位相同即$h[L-1]\times p^{R-L+1}$
+        \item 所以L到R的哈希值就是$h[R]-h[L-1]\times p^{R-L+1}$
+    \end{itemize}
+   
+\end{enumerate}
+\end{document}
