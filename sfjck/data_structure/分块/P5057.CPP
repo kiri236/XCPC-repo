@@ -4,52 +4,50 @@
 #include <cmath>
 using namespace std;
 const int N = 1e6;
+int n,m;
+int b[N];
 int a[N];
-long long b[N];
 int main()
 {
-    int n;
     scanf("%d", &n);
     int len = sqrt(n);
-    for(int i = 0; i < n ; i ++)
+    scanf("%d", &m);
+    while (m -- )
     {
-        scanf("%d", &a[i]);
-    }
-    for(int i = 1; i <= n ; i ++)
-    {
-        int opt;
-        int l,r,c;
-        scanf("%d", &opt);
-        scanf("%d%d", &l, &r);
-        l--,r--;
-        scanf("%d", &c);
-        if(opt==0)
+        int op;
+        scanf("%d", &op);
+        if(op==1)
         {
+            int l,r;
+            scanf("%d%d", &l, &r);
+            l--,r--;
             if(l/len==r/len)
             {
-                for(int j = l ; j <= r; j ++)
+                for(int i = l ;i <= r; i ++)
                 {
-                    a[j] += c;
+                    a[i]^=1;
                 }
-            }else
+            }else 
             {
                 for(int j = l;j<l/len*len+len;j++)
                 {
-                   a[j] += c; 
+                   a[j] ^= 1; 
                 }
                 for(int j = l/len+1;j<=r/len-1;j++)
                 {
-                    b[j] += c;
+                    b[j] ^= 1;
                 }
                 for(int j = r/len*len;j<=r;j++)
                 {
-                    a[j] += c;
+                    a[j] ^= 1;
                 }
-                ///cout << endl;
             }
         }else 
         {
-            cout << a[r] + b[r/len] << endl;
+            int i;
+            scanf("%d", &i);
+            i--;
+            cout << (a[i]^b[i/len]) << endl;
         }
     }
 }
