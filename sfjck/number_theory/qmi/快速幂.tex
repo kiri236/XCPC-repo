@@ -1,0 +1,37 @@
+\documentclass{ctexart}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{快速幂}
+\author{kiri}
+
+\begin{document}
+\maketitle
+\section{快速幂}
+\begin{enumerate}
+    \item 用途:在$o(k)$的时间复杂度内求出$a^k \mod p$ (其中$1\leq a,p,k\leq 10^9$)
+    \item 基本思路:反复平方法:
+    \begin{itemize}
+        \item 首先预处理出$\overbrace{ a^{2^0} \mod p,a^{2^1}\mod p, a^{2^2}\mod p\cdots a^{2^{\log k}}\mod p}^{\log k}$
+        \item 又$a^k=a^{2^{x_1}}a^{2^{x_2}}\cdots a^{2^{x_i}}=a^{2^{x_1}+2^{x_2}\cdots +2^{x_i}}$ (也就是把k转成二进制)
+        \item 预处理时的一个快捷方法:$a^1=a^{2^0},a^{2^{1}}= (a^{2^{0}})^2,a^{2^{2}}=(a^{2^{1}})^2\cdots a^{2^{logk}}=(a^{2^{logk-1}})^2$
+    \end{itemize}
+\end{enumerate}
+\section{快速幂求逆元}
+\subsection{逆元}
+整数b,m互质,且$b|a$,如果$\exists x,st_{\cdot}\dfrac{a}{b}\equiv a\cdot x(\mod m) $则$x$为$b$的逆元,$x=b^{-1}$.在 ($\mod m$)的情况下除b等于乘上b的逆元
+\par 注意:如果b和m不互质,那么b的逆元不存在
+\subsection{快速幂怎么求逆元}
+因为$\dfrac{a}{b}=a\cdot b^{-1}(\mod m)$,那么两边同时乘上b是可以的:$b\cdot \dfrac{a}{b}\equiv ab\cdot b^{-1}(\mod m)$,即$a\equiv abb^{-1}(\mod m)$,又因b与m互质,所以$b\cdot b^{-1}=1(\mod m)$.
+又根据费马小定理:当m是质数p时,$b^{p-1}\equiv 1(\mod p)$ 那么$b\cdot b^{p-2}\equiv 1(\mod p)$,又因b与p互质,那么$b^{-1}\equiv b^{p-2}(\mod p)$
+\end{document}
